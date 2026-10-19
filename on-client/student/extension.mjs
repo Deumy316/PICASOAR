@@ -10,6 +10,10 @@ export function createStudentView() {
         node.textContent = value;
         return node;
       };
+      const identityLabel = (item) => {
+        if (item?.label && item?.id) return `${item.label} (ID: ${item.id})`;
+        return item?.label || item?.id || '확인 불가';
+      };
       const modeLabel = (mode) => ({
         connected: '연결됨',
         demo: '예제 자료',
@@ -47,15 +51,15 @@ export function createStudentView() {
         const user = data.user || {};
         const device = data.device || {};
         const session = data.session || {};
-        identitySection.append(text('p', `사용자: ${user.label || user.id || '확인 불가'}`));
-        identitySection.append(text('p', `현재 기기: ${device.label || device.id || '확인 불가'} · ${deviceStatusLabel(device.status)}`));
+        identitySection.append(text('p', `사용자: ${identityLabel(user)}`));
+        identitySection.append(text('p', `현재 기기: ${identityLabel(device)} · ${deviceStatusLabel(device.status)}`));
         identitySection.append(text('p', `로그인 세션: ${session.id || '확인 불가'} · ${sessionStatusLabel(session.status)}`));
       }
 
       const devicesSection = sectionFor('기기 정보', devices);
       if (devices?.status === 'ok' && Array.isArray(devices.data)) {
         for (const device of devices.data) {
-          devicesSection.append(text('p', `${device.label || device.id || '확인 불가'} · ${deviceStatusLabel(device.status)}`));
+          devicesSection.append(text('p', `${identityLabel(device)} · ${deviceStatusLabel(device.status)}`));
         }
       }
 
