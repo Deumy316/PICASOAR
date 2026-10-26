@@ -207,3 +207,12 @@ main:focus { outline: none; }
 .state-ok { background: var(--allow-soft); color: var(--allow); }
 .ai-result[data-state="connected"] { border-left: 3px solid var(--allow); padding-left: 12px; }
 .ai-result[data-state="unknown"] { border-left: 3px solid var(--unknown); padding-left: 12px; }
+
+/* 마지막 총공세 2일차: 별도 로컬 PC 실측 */
+.pc-metrics { margin: 0 0 16px; }
+.pc-metrics-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px; }
+.pc-metric { border:1px solid var(--border);border-radius:10px;padding:14px;min-width:0; }
+.pc-metric h3 {font-size:0.9rem;margin:0 0 8px;}
+.pc-metric strong {font-size:1.4rem;overflow-wrap:anywhere;}
+.pc-metric p {font-size:0.78rem;overflow-wrap:anywhere;}
+@media(max-width:760px){.pc-metrics-grid{grid-template-columns:1fr;}}

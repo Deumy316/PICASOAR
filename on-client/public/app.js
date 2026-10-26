@@ -1328,7 +1328,45 @@ async function loadAll() {
   }
 }
 
+// PC 실측은 기존 SDP/demo 데이터와 독립된 로컬 API에서만 읽는다.
+let pcInFlight=false;
+const pcGiB=bytes=>(bytes/(1024**3)).toFixed(1)+' GiB';
+const pcTime=iso=>iso?new Date(iso).toLocaleString('ko-KR'):'시각 확인 불가';
+function pcSet(id,value){const el=document.getElementById(id);if(el)el.textContent=value;}
+function pcUnavailable(type,reason){pcSet('pc-'+type,'확인 불가');pcSet('pc-'+type+'-detail',reason||'조회 실패');}
+async function loadPcMetrics(){
+  if(pcInFlight||document.hidden)return;
+  pcInFlight=true;
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),8000);
+  try{
+    const response=await fetch('/api/local/pc-status',{signal:controller.signal,cache:'no-store'});
+    if(!response.ok)throw Error('HTTP '+response.status);
+    const payload=await response.json();
+    if(payload.ok!==true||payload.data?.source!=='local-windows-pc')throw Error('응답 확인 불가');
+    const {cpu,memory,disk,checkedAt}=payload.data;
+    pcSet('pc-metrics-updated','마지막 조회: '+pcTime(checkedAt)+' · 로컬 PC 실측');
+    if(cpu?.status==='ok'){
+      pcSet('pc-cpu',cpu.usedPercent.toFixed(1)+'%');
+      pcSet('pc-cpu-detail','측정 구간 '+cpu.intervalMs+' ms · '+pcTime(cpu.measuredAt));
+    }else pcUnavailable('cpu',cpu?.reason);
+    if(memory?.status==='ok'){
+      pcSet('pc-memory',memory.usedPercent.toFixed(1)+'%');
+      pcSet('pc-memory-detail',pcGiB(memory.usedBytes)+' / '+pcGiB(memory.totalBytes)+' · '+pcTime(memory.measuredAt));
+    }else pcUnavailable('memory',memory?.reason);
+    if(disk?.status==='ok'){
+      pcSet('pc-disk',pcGiB(disk.freeBytes)+' 남음');
+      pcSet('pc-disk-detail',disk.drive+' / 전체 '+pcGiB(disk.totalBytes)+' · '+pcTime(disk.measuredAt));
+    }else pcUnavailable('disk',disk?.reason);
+  }catch{
+    pcSet('pc-metrics-updated','로컬 PC 조회 실패 · '+pcTime(new Date().toISOString()));
+    for(const type of ['cpu','memory','disk'])pcUnavailable(type,'요청 오류 또는 시간 초과');
+  }finally{clearTimeout(timeout);pcInFlight=false;}
+}
 function init() {
+  loadPcMetrics();
+  setInterval(()=>{if(!document.hidden)loadPcMetrics();},10000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadPcMetrics();});
   setupNav();
   $('refresh').addEventListener('click', () => loadAll());
   $('diag-load').addEventListener('click', () => loadDiagnostics());

@@ -1,4 +1,5 @@
 import http from 'node:http';
+import {readPcMetrics} from './windows-pc-metrics.mjs';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
@@ -369,6 +370,10 @@ export function createOnServer(serverOptions={}) {
         try{const data=await bounded(signal=>nativeHost.login[kind]({}, {signal}));assertAlive();send(200,{ok:true,data});}
         catch(error){const code=nativePublicError(error);send(code==='NATIVE_HOST_INPUT_INVALID'?400:code==='NATIVE_HOST_EXPIRED'?410:409,{ok:false,error:{code,message:'현재 로그인 연결을 확인하세요. 자동으로 재시도하지 않습니다.',retryable:false}});}
         return;
+      }
+      if(req.method==='GET'&&url.pathname==='/api/local/pc-status'){
+        const data=await bounded(()=>readPcMetrics());
+        send(200,{ok:true,data});return;
       }
       if(req.method==='GET'&&files.has(url.pathname)){
         const data=await readFile(resolve(assetsRoot,files.get(url.pathname)));

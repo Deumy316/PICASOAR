@@ -46,6 +46,17 @@
       <section id="view-protection" class="view" role="tabpanel" aria-labelledby="tab-protection">
         <h1>보호 현황</h1>
 
+        <section class="card provided pc-metrics" aria-labelledby="pc-metrics-title">
+          <h2 id="pc-metrics-title">내 PC 상태 <span class="tag">Windows 로컬 실측</span></h2>
+          <p>현재 앱 서버가 실행되는 PC의 실제 측정값이야. 보안 엔진의 demo 데이터와 별개야.</p>
+          <p id="pc-metrics-updated" role="status">측정 대기 중</p>
+          <div class="pc-metrics-grid">
+            <div class="pc-metric"><h3>CPU</h3><strong id="pc-cpu">확인 중</strong><p id="pc-cpu-detail"></p></div>
+            <div class="pc-metric"><h3>물리 메모리</h3><strong id="pc-memory">확인 중</strong><p id="pc-memory-detail"></p></div>
+            <div class="pc-metric"><h3>시스템 디스크</h3><strong id="pc-disk">확인 중</strong><p id="pc-disk-detail"></p></div>
+          </div>
+        </section>
+
         <div class="grid-2">
           <section class="card provided" aria-labelledby="identity-title">
             <h2 id="identity-title">현재 로그인 <span class="tag">제공</span></h2>
