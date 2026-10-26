@@ -459,6 +459,27 @@ export function createStudentView() {
         if (code === 'WB_CLCO_SESSION_CLOSED') {
           return '현재 이용 시간이 아닙니다. 이용 시간을 확인하세요.';
         }
+        if (code === 'WB_CLCO_INVALID_URL') {
+          return 'AI 연결 주소 또는 서버 설정을 확인하세요. 설정 문제가 의심되면 담당자에게 연결 설정 확인을 요청하세요.';
+        }
+        if (code === 'WB_CLCO_INVALID_LIMIT') {
+          return '요청 제한값 또는 서버 설정을 확인하세요. 설정 문제가 의심되면 담당자에게 연결 설정 확인을 요청하세요.';
+        }
+        if (code === 'WB_CLCO_INVALID_RESPONSE') {
+          return 'AI 서버 응답 형식을 확인할 수 없습니다. 서버 설정 또는 응답 문제가 의심되면 담당자에게 연결 설정 확인을 요청하세요.';
+        }
+        if (code === 'WB_CLCO_INVALID_CONTENT_TYPE') {
+          return 'AI 서버 응답 형식이 예상과 다릅니다. 서버 설정 문제가 의심되면 담당자에게 연결 설정 확인을 요청하세요.';
+        }
+        if (code === 'WB_CLCO_RESPONSE_TOO_LARGE') {
+          return 'AI 서버 응답이 서버의 응답 크기 제한을 초과했습니다. 담당자에게 연결 설정과 서버 응답을 확인해 달라고 요청하세요.';
+        }
+        if (code === 'WB_CLCO_REDIRECT_BLOCKED') {
+          return '허용되지 않은 리다이렉트가 차단됐습니다. 담당자에게 연결 주소와 서버 설정 확인을 요청하세요.';
+        }
+        if (code === 'WB_CLCO_REQUEST_FAILED') {
+          return 'AI 서버 요청에 실패했습니다. 이것만으로 인증 실패라고 단정할 수 없습니다. 담당자에게 서버 상태와 연결 설정 확인을 요청하세요.';
+        }
         if (['WB_CLCO_RATE_LIMITED', 'WB_CLCO_TIMEOUT', 'WB_CLCO_NETWORK_ERROR', 'WB_CLCO_SERVER_UNAVAILABLE', 'REQUEST_TIMEOUT', 'ENGINE_TIMEOUT'].includes(code)) {
           return '요청 제한, 시간 초과 또는 네트워크 문제입니다. 잠시 뒤 사용자가 「현재 API 연결 점검」을 직접 다시 누르세요.';
         }
