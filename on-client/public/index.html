@@ -57,6 +57,19 @@
           </div>
         </section>
 
+        <section class="card provided local-connections" aria-labelledby="local-connections-title">
+          <h2 id="local-connections-title">연결과 기록 <span class="tag">Windows 읽기 전용 조회</span></h2>
+          <p>이 앱 서버가 실행되는 PC의 로컬 정보야. Windows 이벤트 건수는 공격 탐지 판정이 아니며, SDP 연결 상태와 별개야.</p>
+          <p id="local-connections-updated" role="status">조회 대기 중</p>
+          <div class="local-connections-grid">
+            <div class="local-connection"><h3>네트워크 어댑터</h3><strong id="local-network">확인 중</strong><p id="local-network-detail"></p></div>
+            <div class="local-connection"><h3>Windows 방화벽</h3><strong id="local-firewall">확인 중</strong><p id="local-firewall-detail"></p></div>
+            <div class="local-connection"><h3>System 경고·오류</h3><strong id="local-system">확인 중</strong><p id="local-system-detail"></p></div>
+            <div class="local-connection"><h3>Application 경고·오류</h3><strong id="local-application">확인 중</strong><p id="local-application-detail"></p></div>
+          </div>
+          <p>조회 범위: 최근 24시간 · 이벤트 수준: 경고(3), 오류(2) · 실제 침해 여부는 판정하지 않음 · SDP 상태는 상단 연결 상태 참조</p>
+        </section>
+
         <div class="grid-2">
           <section class="card provided" aria-labelledby="identity-title">
             <h2 id="identity-title">현재 로그인 <span class="tag">제공</span></h2>

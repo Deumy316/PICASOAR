@@ -1363,8 +1363,48 @@ async function loadPcMetrics(){
     for(const type of ['cpu','memory','disk'])pcUnavailable(type,'요청 오류 또는 시간 초과');
   }finally{clearTimeout(timeout);pcInFlight=false;}
 }
+// 3일차 Windows 연결·방화벽·이벤트: 기존 보안 엔진과 독립된 읽기 전용 조회.
+let localConnectionBusy=false;
+function localSet(id,value){const target=document.getElementById(id);if(target)target.textContent=value;}
+function localFail(kind,reason){localSet('local-'+kind,'확인 불가');localSet('local-'+kind+'-detail',reason||'조회 실패');}
+async function loadLocalConnections(){
+  if(localConnectionBusy||document.hidden)return;
+  localConnectionBusy=true;
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),11000);
+  try{
+    const response=await fetch('/api/local/connections',{signal:controller.signal,cache:'no-store'});
+    if(!response.ok)throw Error('HTTP_ERROR');
+    const payload=await response.json();
+    if(payload.ok!==true||payload.data?.source!=='local-windows-readonly')throw Error('INVALID_SOURCE');
+    const {network,firewall,events,checkedAt}=payload.data;
+    localSet('local-connections-updated','마지막 조회: '+pcTime(checkedAt)+' · 로컬 Windows · SDP 별도');
+    if(network?.status==='ok'){
+      const active=network.adapters.filter(a=>a.status.toLowerCase()==='up');
+      localSet('local-network','연결 어댑터 '+active.length+'개');
+      localSet('local-network-detail',(active.length?active:network.adapters).map(a=>a.name+' ('+a.status+')').join(', ')||'어댑터 없음');
+    }else localFail('network',network?.reason);
+    if(firewall?.status==='ok'){
+      localSet('local-firewall','프로필 '+firewall.profiles.length+'개 조회');
+      localSet('local-firewall-detail',firewall.profiles.map(p=>p.name+': '+(p.enabled?'켜짐':'꺼짐')).join(' · '));
+    }else localFail('firewall',firewall?.reason);
+    for(const [name,key] of [['System','system'],['Application','application']]){
+      const value=events?.[name];
+      if(value?.status==='ok'){
+        localSet('local-'+key,String(value.count)+'건');
+        localSet('local-'+key+'-detail','최근 24시간 경고·오류 · '+pcTime(value.measuredAt)+' · 침해 판정 아님');
+      }else localFail(key,value?.reason);
+    }
+  }catch{
+    localSet('local-connections-updated','로컬 연결·기록 조회 실패 · '+pcTime(new Date().toISOString()));
+    for(const type of ['network','firewall','system','application'])localFail(type,'요청 오류 또는 시간 초과');
+  }finally{clearTimeout(timer);localConnectionBusy=false;}
+}
 function init() {
   loadPcMetrics();
+  loadLocalConnections();
+  setInterval(()=>{if(!document.hidden)loadLocalConnections();},30000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadLocalConnections();});
   setInterval(()=>{if(!document.hidden)loadPcMetrics();},10000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadPcMetrics();});
   setupNav();
