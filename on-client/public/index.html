@@ -45,11 +45,17 @@
 
       <section id="view-protection" class="view" role="tabpanel" aria-labelledby="tab-protection">
         <h1>보호 현황</h1>
+        <nav class="day4-quick" aria-label="핵심 기능 바로가기">
+          <a href="#pc-metrics-title">PC 실측 <small>CPU·메모리·디스크</small></a>
+          <a href="#local-connections-title">연결과 기록 <small>네트워크·방화벽·이벤트</small></a>
+          <a href="#identity-title">보안 엔진 상태 <small>로그인·기기·세션</small></a>
+        </nav>
 
         <section class="card provided pc-metrics" aria-labelledby="pc-metrics-title">
           <h2 id="pc-metrics-title">내 PC 상태 <span class="tag">Windows 로컬 실측</span></h2>
           <p>현재 앱 서버가 실행되는 PC의 실제 측정값이야. 보안 엔진의 demo 데이터와 별개야.</p>
-          <p id="pc-metrics-updated" role="status">측정 대기 중</p>
+          <div class="day4-toolrow"><p id="pc-metrics-updated" role="status" aria-live="polite">측정 대기 중</p><button type="button" class="btn" id="pc-retry">PC 상태 다시 조회</button></div>
+          <p class="day4-help" id="pc-help" aria-live="polite">실패한 항목은 확인 불가로 표시돼. 조회가 안 되면 다시 조회를 눌러 줘.</p>
           <div class="pc-metrics-grid">
             <div class="pc-metric"><h3>CPU</h3><strong id="pc-cpu">확인 중</strong><p id="pc-cpu-detail"></p></div>
             <div class="pc-metric"><h3>물리 메모리</h3><strong id="pc-memory">확인 중</strong><p id="pc-memory-detail"></p></div>
@@ -60,7 +66,8 @@
         <section class="card provided local-connections" aria-labelledby="local-connections-title">
           <h2 id="local-connections-title">연결과 기록 <span class="tag">Windows 읽기 전용 조회</span></h2>
           <p>이 앱 서버가 실행되는 PC의 로컬 정보야. Windows 이벤트 건수는 공격 탐지 판정이 아니며, SDP 연결 상태와 별개야.</p>
-          <p id="local-connections-updated" role="status">조회 대기 중</p>
+          <div class="day4-toolrow"><p id="local-connections-updated" role="status" aria-live="polite">조회 대기 중</p><button type="button" class="btn" id="local-retry">연결·기록 다시 조회</button></div>
+          <p class="day4-help" id="local-help" aria-live="polite">읽을 수 없는 항목은 확인 불가로 남겨. 방화벽 설정은 변경하지 않아.</p>
           <div class="local-connections-grid">
             <div class="local-connection"><h3>네트워크 어댑터</h3><strong id="local-network">확인 중</strong><p id="local-network-detail"></p></div>
             <div class="local-connection"><h3>Windows 방화벽</h3><strong id="local-firewall">확인 중</strong><p id="local-firewall-detail"></p></div>

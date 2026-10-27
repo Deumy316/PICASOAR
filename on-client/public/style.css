@@ -225,3 +225,15 @@ main:focus { outline: none; }
 .local-connection strong{font-size:1.15rem;overflow-wrap:anywhere;}
 .local-connection p{font-size:0.78rem;overflow-wrap:anywhere;}
 @media(max-width:760px){.local-connections-grid{grid-template-columns:1fr;}}
+
+/* 마지막 총공세 4일차: 핵심 기능 안내와 조회·실패 피드백 */
+.day4-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 18px}
+.day4-quick a{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-weight:700;text-decoration:none}
+.day4-quick a:hover{border-color:var(--accent);background:var(--accent-soft)}
+.day4-quick a small{font-size:.8rem;font-weight:400;color:var(--muted)}
+.day4-toolrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0}
+.day4-toolrow p{margin:0;min-width:0;overflow-wrap:anywhere}
+.day4-help{margin:8px 0;color:var(--muted);font-size:.86rem}
+#pc-metrics-title,#local-connections-title,#identity-title{scroll-margin-top:20px}
+@media(max-width:920px){body{min-width:0}.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--border);padding:8px 12px}#nav{flex-direction:row;flex-wrap:wrap}.sidebar-note{margin:6px 4px}.topbar{height:auto;min-height:60px;gap:12px;flex-wrap:wrap;padding:12px}.topbar-status{flex-wrap:wrap}main{padding:16px;max-width:none}.day4-quick{grid-template-columns:1fr}.pc-metrics-grid,.local-connections-grid{grid-template-columns:1fr}}
+@media(min-width:761px) and (max-width:1100px){.pc-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

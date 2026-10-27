@@ -1333,10 +1333,12 @@ let pcInFlight=false;
 const pcGiB=bytes=>(bytes/(1024**3)).toFixed(1)+' GiB';
 const pcTime=iso=>iso?new Date(iso).toLocaleString('ko-KR'):'시각 확인 불가';
 function pcSet(id,value){const el=document.getElementById(id);if(el)el.textContent=value;}
-function pcUnavailable(type,reason){pcSet('pc-'+type,'확인 불가');pcSet('pc-'+type+'-detail',reason||'조회 실패');}
+function pcUnavailable(type,reason){pcSet('pc-'+type,'확인 불가');pcSet('pc-'+type+'-detail',(reason||'조회 실패')+' · 잠시 후 PC 상태 다시 조회를 눌러 줘.');}
 async function loadPcMetrics(){
   if(pcInFlight||document.hidden)return;
   pcInFlight=true;
+  const retry=document.getElementById('pc-retry');if(retry){retry.disabled=true;retry.textContent='조회 중…';}
+  pcSet('pc-help','측정 중이야. 최신 측정이 끝나면 값과 시각을 보여줄게.');
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),8000);
   try{
@@ -1361,15 +1363,17 @@ async function loadPcMetrics(){
   }catch{
     pcSet('pc-metrics-updated','로컬 PC 조회 실패 · '+pcTime(new Date().toISOString()));
     for(const type of ['cpu','memory','disk'])pcUnavailable(type,'요청 오류 또는 시간 초과');
-  }finally{clearTimeout(timeout);pcInFlight=false;}
+  }finally{clearTimeout(timeout);pcInFlight=false;if(retry){retry.disabled=false;retry.textContent='PC 상태 다시 조회';}pcSet('pc-help','실패 항목은 확인 불가로 표시돼. 필요하면 다시 조회해 줘.');}
 }
 // 3일차 Windows 연결·방화벽·이벤트: 기존 보안 엔진과 독립된 읽기 전용 조회.
 let localConnectionBusy=false;
 function localSet(id,value){const target=document.getElementById(id);if(target)target.textContent=value;}
-function localFail(kind,reason){localSet('local-'+kind,'확인 불가');localSet('local-'+kind+'-detail',reason||'조회 실패');}
+function localFail(kind,reason){localSet('local-'+kind,'확인 불가');localSet('local-'+kind+'-detail',(reason||'조회 실패')+' · 연결·기록 다시 조회를 눌러 줘.');}
 async function loadLocalConnections(){
   if(localConnectionBusy||document.hidden)return;
   localConnectionBusy=true;
+  const retry=document.getElementById('local-retry');if(retry){retry.disabled=true;retry.textContent='조회 중…';}
+  localSet('local-help','네트워크·방화벽·이벤트 기록을 읽는 중이야. 설정은 변경하지 않아.');
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),11000);
   try{
@@ -1398,11 +1402,13 @@ async function loadLocalConnections(){
   }catch{
     localSet('local-connections-updated','로컬 연결·기록 조회 실패 · '+pcTime(new Date().toISOString()));
     for(const type of ['network','firewall','system','application'])localFail(type,'요청 오류 또는 시간 초과');
-  }finally{clearTimeout(timer);localConnectionBusy=false;}
+  }finally{clearTimeout(timer);localConnectionBusy=false;if(retry){retry.disabled=false;retry.textContent='연결·기록 다시 조회';}localSet('local-help','확인 불가 항목은 오류 이유를 확인하고 다시 조회해 줘. Windows 설정은 변경하지 않아.');}
 }
 function init() {
   loadPcMetrics();
   loadLocalConnections();
+  $('pc-retry').addEventListener('click',()=>loadPcMetrics());
+  $('local-retry').addEventListener('click',()=>loadLocalConnections());
   setInterval(()=>{if(!document.hidden)loadLocalConnections();},30000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadLocalConnections();});
   setInterval(()=>{if(!document.hidden)loadPcMetrics();},10000);
