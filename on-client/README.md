@@ -25,3 +25,27 @@ npm start도 같은 서버를 켭니다. 기본 실행은 실제 회사 시스�
 - 오류 코드별 해결: docs/CONNECTION_TROUBLESHOOT.md
 - 시작 틀 업데이트(내 파일 보존): docs/STARTER_UPDATE.md
 - 실제 회사 시스템(SDP)·앱 안 AI 연결은 담당자가 따로 안내할 때만 씁니다: docs/SDP_HOST_CONNECTION.md, docs/AI_SETUP_GUIDE.md. 이 연결은 앱을 처음 켜고 13~16단계 화면을 만들거나 공식 AI 코드 판정을 받기 위한 전제 조건은 아닙니다. 다만 17단계 이후의 실제 연결과 새 환경 재현은 해당 단계의 기준에 따라 따로 확인합니다.
+
+
+## 마지막 총공세 1~5일차: Windows PC 관제 및 재현 (2026-10-27)
+
+이 저장소의 PICASOAR는 기존 13~22단계 보안 Agent 화면에 **로컬 PC 관제**를 확장했습니다. 기존 학생 구현·SDP 연결과 독립적으로 로컬 CPU·물리 메모리·시스템 디스크, 네트워크 어댑터, Windows 방화벽 프로필, 최근 24시간 System/Application 경고·오류 건수를 조회합니다. 실제 침해 탐지 결과로 해석하지 않습니다.
+
+Windows 11에서 처음 실행할 때 (기존 프로젝트 폴더를 보존하고 새 폴더에서 진행):
+
+```powershell
+git clone https://github.com/Deumy316/PICASOAR.git C:\work\PICASOAR-REPRO-DAY5
+Set-Location C:\work\PICASOAR-REPRO-DAY5
+git checkout --detach 9b707c92d94afe0829a99c645885d7b554dc56a9
+Set-Location .\on-client
+node --version
+npm.cmd --version
+npm.cmd run check
+npm.cmd start
+```
+
+브라우저: http://127.0.0.1:5189/ . 실행 창의 `Ctrl+C`로 종료합니다. 기존 폴더를 덮어쓰지 말고, 지정 폴더가 이미 존재하면 새로운 빈 폴더 이름을 사용하세요. `npm.cmd run demo`는 기본 서버를 종료한 후 실행하며, 업무 앱·보안 기록은 **예제 데이터**, 로컬 PC 상태 카드는 **실측 데이터**입니다. 연결되지 않은 SDP·AI 기능은 미연결로 표시될 수 있습니다.
+
+검증 기준: Windows 11, Node.js v24.21.0, npm 11.19.0, 커밋 `9b707c92d94afe0829a99c645885d7b554dc56a9`에서 사용자 재현 확인. 프로젝트 `package.json`의 엔진 명시는 24.19.0이며 24.21.0에서의 사용자 확인이 그 설정을 변경하지는 않습니다. `npm.cmd run check`는 학생 JS 문법 검사만 수행합니다. `npm run package-app`은 아직 구현되지 않았으며 6일차 포장 단계에서 별도 확인해야 합니다.
+
+상세 실행, 다시 조회, 오류 구분 및 재현 체크리스트: [docs/STUDENT_LAUNCH_GUIDE.md](docs/STUDENT_LAUNCH_GUIDE.md)의 **부록 A — 마지막 총공세 5일차**를 참고하세요.
