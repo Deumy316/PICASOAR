@@ -20,6 +20,7 @@ npm start도 같은 서버를 켭니다. 기본 실행은 실제 회사 시스�
 
 ## 더 읽을 곳
 
+- 7일차 최종 시연 기록과 미완료 항목: [docs/FINAL_DEMO_RECORD.md](docs/FINAL_DEMO_RECORD.md)
 - 단계별 안내와 AI에 붙여 넣을 문장: docs/STUDENT_PROMPTS.md
 - 단계별 확인 항목: docs/CURRICULUM.json, docs/IMPLEMENTATION_CONTRACT.md
 - 오류 코드별 해결: docs/CONNECTION_TROUBLESHOOT.md
