@@ -1450,3 +1450,32 @@ function init() {
 }
 
 init();
+
+
+// Theme: attached to existing served app.js to avoid unregistered static route.
+// PICASOAR visual theme only. No application APIs or data processing are changed.
+const key = 'picasoar.visual.theme.v1';
+const root = document.documentElement;
+const button = document.getElementById('picasoar-theme-toggle');
+const known = new Set(['light','midnight']);
+let theme = 'midnight';
+try {
+  const saved = window.localStorage.getItem(key);
+  if (known.has(saved)) theme = saved;
+} catch { /* Storage can be blocked; theme switch still works this session. */ }
+function apply(next) {
+  theme = next;
+  root.setAttribute('data-picasoar-theme', next);
+  if (button) {
+    const dark = next === 'midnight';
+    button.textContent = dark ? '밝게 보기' : '어둡게 보기';
+    button.setAttribute('aria-label', dark ? '밝은 테마로 전환' : '미드나잇 선셋 테마로 전환');
+    button.setAttribute('aria-pressed', String(dark));
+  }
+}
+apply(theme);
+button?.addEventListener('click', () => {
+  const next = theme === 'midnight' ? 'light' : 'midnight';
+  apply(next);
+  try { window.localStorage.setItem(key, next); } catch { /* no persistence */ }
+});

@@ -237,3 +237,163 @@ main:focus { outline: none; }
 #pc-metrics-title,#local-connections-title,#identity-title{scroll-margin-top:20px}
 @media(max-width:920px){body{min-width:0}.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--border);padding:8px 12px}#nav{flex-direction:row;flex-wrap:wrap}.sidebar-note{margin:6px 4px}.topbar{height:auto;min-height:60px;gap:12px;flex-wrap:wrap;padding:12px}.topbar-status{flex-wrap:wrap}main{padding:16px;max-width:none}.day4-quick{grid-template-columns:1fr}.pc-metrics-grid,.local-connections-grid{grid-template-columns:1fr}}
 @media(min-width:761px) and (max-width:1100px){.pc-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* PICASOAR Midnight Sunset — presentation only; data and engine states are unchanged. */
+:root[data-picasoar-theme="midnight"] {
+  color-scheme: dark;
+  --bg: #10192d;
+  --surface: #1b2941;
+  --border: #344763;
+  --text: #f0f4fd;
+  --muted: #b4c2d8;
+  --accent: #b3a4ff;
+  --accent-soft: #302f56;
+  --allow: #8ce1b7;
+  --allow-soft: #183b36;
+  --deny: #ffb1ac;
+  --deny-soft: #462c38;
+  --challenge: #ffd09b;
+  --challenge-soft: #493d37;
+  --unknown: #c2ccda;
+  --unknown-soft: #303f56;
+  --student: #c7afff;
+  --student-soft: #393051;
+  --radius: 13px;
+  --focus: 0 0 0 3px #f3b784;
+}
+:root[data-picasoar-theme="light"] { color-scheme: light; }
+:root[data-picasoar-theme="midnight"] body {
+  background: radial-gradient(ellipse 900px 420px at 95% -12%, rgba(213,139,154,.20),transparent 70%),
+              radial-gradient(ellipse 850px 540px at 12% -10%, rgba(82,108,167,.26), transparent 70%), var(--bg);
+}
+:root[data-picasoar-theme="midnight"] .topbar {
+  background: linear-gradient(108deg,#17243c 0%,#293653 63%,#4a354b 100%);
+  box-shadow: 0 4px 22px rgba(5,11,24,.19);
+}
+:root[data-picasoar-theme="midnight"] .brand-name { letter-spacing: -.015em; }
+:root[data-picasoar-theme="midnight"] .brand-icon { box-shadow: 0 0 0 1px rgba(243,183,132,.5), 0 5px 18px rgba(5,11,24,.18); }
+:root[data-picasoar-theme="midnight"] .sidebar {
+  background: linear-gradient(180deg,#18243b,#16233a);
+}
+:root[data-picasoar-theme="midnight"] #nav [role="tab"][aria-selected="true"] {
+  background: linear-gradient(95deg,#34446d,#473a60);
+  box-shadow: inset 3px 0 0 #f3b784;
+  color: #fff0db;
+}
+:root[data-picasoar-theme="midnight"] #nav [role="tab"]:hover { background:#293b57; }
+:root[data-picasoar-theme="midnight"] main { color: var(--text); }
+:root[data-picasoar-theme="midnight"] .card,
+:root[data-picasoar-theme="midnight"] .day4-quick a {
+  background: linear-gradient(145deg, rgba(36,52,79,.95), rgba(25,39,63,.96));
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 26px rgba(5,11,26,.14);
+}
+:root[data-picasoar-theme="midnight"] .card.student { border-left-color:var(--student); }
+:root[data-picasoar-theme="midnight"] .pc-metric,
+:root[data-picasoar-theme="midnight"] .local-connection,
+:root[data-picasoar-theme="midnight"] .event {
+  background:rgba(12,23,42,.38);
+  border-color:#3d506c;
+}
+:root[data-picasoar-theme="midnight"] .pc-metric strong,
+:root[data-picasoar-theme="midnight"] .local-connection strong { color:#f8f0ee; }
+:root[data-picasoar-theme="midnight"] .day4-quick a:hover {
+  background:linear-gradient(135deg,#3b496e,#4d405e);
+  border-color:#d58b9a;
+}
+:root[data-picasoar-theme="midnight"] .btn,
+:root[data-picasoar-theme="midnight"] #nav [role="tab"] { transition:background-color .18s,border-color .18s,color .18s; }
+:root[data-picasoar-theme="midnight"] .btn:hover:not(:disabled) { background:#344666;color:#f3b784;border-color:#d58b9a; }
+:root[data-picasoar-theme="midnight"] .mode-badge[data-mode="disconnected"] { border-color:#bf8791; }
+:root[data-picasoar-theme="midnight"] .mode-badge[data-mode="connected"] { border-color:#5d9b80; }
+:root[data-picasoar-theme="midnight"] .notice { border:1px solid #465579; }
+:root[data-picasoar-theme="midnight"] .diag-output { background:#0b1426;color:#dce6f7; }
+:root[data-picasoar-theme="midnight"] .vulnerabilities-result th { background:#152339; }
+/* Keep the normal light option but give controls the same polished touch. */
+:root[data-picasoar-theme="light"] { --radius: 11px; }
+:root[data-picasoar-theme="light"] .card { box-shadow:0 4px 20px rgba(28,36,48,.045); }
+:root[data-picasoar-theme="light"] .topbar { box-shadow:0 2px 12px rgba(28,36,48,.04); }
+.picasoar-theme-toggle {
+  display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;
+  min-height:36px;white-space:nowrap;font-weight:600;
+}
+.picasoar-theme-toggle::before { content:"◐";font-size:1.08em;line-height:1; }
+:root[data-picasoar-theme="midnight"] .picasoar-theme-toggle {
+  background:#334563;border-color:#72809b;color:#f4e9e4;
+}
+:root[data-picasoar-theme="midnight"] .picasoar-theme-toggle:hover { background:#435576;color:#fff; }
+:root[data-picasoar-theme="midnight"] a:not(.day4-quick a) { color:#c3baff; }
+:root[data-picasoar-theme="midnight"] a:visited:not(.day4-quick a) { color:#d7bdff; }
+@media (prefers-reduced-motion:reduce) {
+  .picasoar-theme-toggle { transition:none!important; }
+}
+@media (max-width:550px){ .picasoar-theme-toggle { min-height:40px; } }
+
+
+/* Midnight Sunset 2.0 — visual layer only. Existing data, navigation and runtime untouched. */
+:root[data-picasoar-theme="midnight"] {
+ --bg: #0c162a; --surface: #1a2945; --border: #364b6a;
+ --text: #f5f7ff; --muted: #b5c4df; --accent: #c6b5ff;
+ --accent-soft: #343253; --student: #d9bcff; --student-soft: #3c3054;
+ --radius: 16px;
+}
+:root[data-picasoar-theme="midnight"] body { background: #0c162a; }
+:root[data-picasoar-theme="midnight"] .layout { background: radial-gradient(ellipse 900px 600px at 83% 0%,#372d52 0%,transparent 70%),#0c162a; }
+:root[data-picasoar-theme="midnight"] .topbar { position:relative; z-index:2; min-height:66px; height:auto; background:linear-gradient(110deg,#101d37 0%,#283a60 61%,#513953 100%); box-shadow:0 6px 22px #040b1e55; border-bottom-color:#4a4b70; }
+:root[data-picasoar-theme="midnight"] .sidebar { position:relative; background:linear-gradient(180deg,#172742 0%,#12213b 68%,#202143 100%); border-right-color:#384766; overflow:hidden; }
+:root[data-picasoar-theme="midnight"] .sidebar::before {content:"";position:absolute;left:-65px;right:-65px;bottom:-36px;height:240px;pointer-events:none;background:radial-gradient(ellipse at 48% 85%,#f6a36a63,transparent 43%),linear-gradient(160deg,transparent 25%,#704d76 48%,#282b58 70%,#111e39 84%);clip-path:polygon(0 63%,18% 43%,39% 61%,60% 24%,81% 48%,100% 28%,100% 100%,0 100%);opacity:.65;}
+:root[data-picasoar-theme="midnight"] .sidebar > * {position:relative;z-index:1;}
+:root[data-picasoar-theme="midnight"] #nav [role="tab"]{padding:13px 14px;font-weight:600;letter-spacing:.01em;border:1px solid transparent;}
+:root[data-picasoar-theme="midnight"] #nav [role="tab"][aria-selected="true"] {background:linear-gradient(104deg,#354879 0%,#69476a 100%);border:1px solid #986b88;box-shadow:inset 3px 0 0 #ffb285,0 8px 20px #050e2344;color:#fff;}
+:root[data-picasoar-theme="midnight"] main {max-width:1600px;padding-top:22px;}
+/* Scene: gradient sunset painted with CSS only; no external artwork or invented telemetry. */
+.sunset-hero {display:none;}
+:root[data-picasoar-theme="midnight"] .sunset-hero {display:block;position:absolute;top:0;left:0;right:0;height:176px;pointer-events:none;overflow:hidden;border-radius:18px;z-index:0;background:linear-gradient(102deg,#1b2a50 0%,#403456 47%,#aa5576 77%,#ef9a72 100%);}
+:root[data-picasoar-theme="midnight"] .sunset-hero::before {content:"";position:absolute;right:11%;top:18%;width:94px;height:94px;border-radius:50%;background:#ffd2a1;box-shadow:0 0 60px 18px #ffbf9c77;opacity:.9;}
+:root[data-picasoar-theme="midnight"] .sunset-ridge {position:absolute;left:-4%;right:-4%;bottom:-1px;height:55%;}
+:root[data-picasoar-theme="midnight"] .sunset-ridge-back {background:#313359bb;clip-path:polygon(0 76%,13% 48%,26% 65%,42% 33%,58% 68%,73% 28%,88% 56%,100% 35%,100% 100%,0 100%);}
+:root[data-picasoar-theme="midnight"] .sunset-ridge-front {height:44%;background:#162540d9;clip-path:polygon(0 65%,15% 72%,30% 46%,47% 78%,63% 35%,77% 57%,92% 29%,100% 51%,100% 100%,0 100%);}
+:root[data-picasoar-theme="midnight"] .view {position:relative;}
+.sunset-intro {position:relative;margin:0 0 20px;}
+.sunset-intro .sunset-eyebrow {display:none;}
+.sunset-intro > p {display:none;}
+:root[data-picasoar-theme="midnight"] .sunset-intro {min-height:176px;padding:30px 30px 26px;margin-bottom:22px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-shadow:0 2px 14px #09132a88;}
+:root[data-picasoar-theme="midnight"] .sunset-intro .sunset-eyebrow {display:block;color:#ffcfaa;font-size:.73rem;letter-spacing:.24em;font-weight:800;margin-bottom:10px;}
+:root[data-picasoar-theme="midnight"] .sunset-intro h1 {font-size:clamp(1.5rem,2.5vw,2.3rem);margin:0 0 5px;letter-spacing:-.035em;}
+:root[data-picasoar-theme="midnight"] .sunset-intro > p {display:block;margin:0;color:#e1dff1;max-width:660px;font-size:.92rem;}
+:root[data-picasoar-theme="midnight"] .sunset-intro::after {content:"PICASOAR  /  SECURE WORKSPACE";position:absolute;right:26px;bottom:20px;font-size:.66rem;letter-spacing:.18em;color:#ffe2d0aa;}
+:root[data-picasoar-theme="midnight"] .error-banner {position:relative;border:1px solid #b77988;border-left:4px solid #ff9f95;border-radius:14px;background:linear-gradient(106deg,#4b2b3b,#422e44 72%,#352942);box-shadow:0 12px 24px #08112638;color:#ffd0cb;padding:15px 18px;}
+:root[data-picasoar-theme="midnight"] .error-banner li {margin:3px 0;line-height:1.45;}
+:root[data-picasoar-theme="midnight"] .notice {background:#232e4b;border:1px solid #505680;color:#e6e2ff;border-radius:12px;}
+:root[data-picasoar-theme="midnight"] .card {background:linear-gradient(145deg,#243857 0%,#19283f 84%);border:1px solid #405475;box-shadow:0 14px 36px #06102555,inset 0 1px #ffffff08;border-radius:16px;padding:21px 23px;}
+:root[data-picasoar-theme="midnight"] .card h2 {font-size:1.15rem;letter-spacing:-.02em;margin-bottom:13px;}
+:root[data-picasoar-theme="midnight"] .card.student {border-left:3px solid #bd95ff;background:linear-gradient(135deg,#292d50,#1a2942 80%);}
+:root[data-picasoar-theme="midnight"] .day4-quick a {background:linear-gradient(140deg,#243b5c,#25314d);border:1px solid #405879;border-radius:14px;box-shadow:0 9px 22px #08132844;position:relative;padding:19px 21px;}
+:root[data-picasoar-theme="midnight"] .day4-quick a::before {content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:5px;background:linear-gradient(#b5a6ff,#ffa98a);}
+:root[data-picasoar-theme="midnight"] .day4-quick a:hover {transform:translateY(-2px);border-color:#a68cc8;box-shadow:0 14px 28px #050c2366;}
+:root[data-picasoar-theme="midnight"] .pc-metric, :root[data-picasoar-theme="midnight"] .local-connection {position:relative;overflow:hidden;background:linear-gradient(145deg,#1a2c48,#17253e);border:1px solid #3b5274;border-radius:14px;padding:19px;}
+:root[data-picasoar-theme="midnight"] .pc-metric::before {content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f4a784,#9d84dc);}
+:root[data-picasoar-theme="midnight"] .pc-metric:nth-child(2)::before {background:linear-gradient(90deg,#9a7be7,#79a5ff);}
+:root[data-picasoar-theme="midnight"] .pc-metric:nth-child(3)::before {background:linear-gradient(90deg,#63bfe4,#73d9c4);}
+:root[data-picasoar-theme="midnight"] .pc-metric strong {font-size:clamp(1.4rem,2.3vw,2rem);letter-spacing:-.035em;display:block;margin:6px 0;color:#fff;}
+:root[data-picasoar-theme="midnight"] .pc-metric h3, :root[data-picasoar-theme="midnight"] .local-connection h3 {color:#d5dffc;font-weight:650;}
+:root[data-picasoar-theme="midnight"] .pc-metric p,:root[data-picasoar-theme="midnight"] .local-connection p {color:#b7c6df;}
+:root[data-picasoar-theme="midnight"] .local-connection strong {color:#fff;font-size:1.28rem;}
+:root[data-picasoar-theme="midnight"] .btn {border-radius:11px;border-color:#637493;background:#263b5a;color:#f3f6ff;font-weight:600;min-height:38px;}
+:root[data-picasoar-theme="midnight"] .btn:hover:not(:disabled) {background:#3e5175;border-color:#e1a28b;color:#fff;}
+:root[data-picasoar-theme="midnight"] .mode-badge[data-mode="disconnected"] {background:#50343f;color:#ffd1ce;border:1px solid #bb7c8b;}
+:root[data-picasoar-theme="midnight"] .mode-badge[data-mode="demo"] {background:#4d3b38;color:#ffe0b5;border:1px solid #d5a574;}
+:root[data-picasoar-theme="midnight"] .tag {font-weight:650;}
+:root[data-picasoar-theme="midnight"] #nav [role="tab"]:focus-visible,:root[data-picasoar-theme="midnight"] .btn:focus-visible {outline:2px solid #ffd3ac;outline-offset:2px;}
+@media(max-width:920px){:root[data-picasoar-theme="midnight"] .sunset-hero{height:150px}:root[data-picasoar-theme="midnight"] .sunset-intro{min-height:150px;padding:24px 18px}:root[data-picasoar-theme="midnight"] .sunset-intro::after{display:none}:root[data-picasoar-theme="midnight"] .sidebar::before{display:none}}
+@media(max-width:550px){:root[data-picasoar-theme="midnight"] .sunset-hero{height:128px}:root[data-picasoar-theme="midnight"] .sunset-intro {min-height:128px;padding:20px 16px}:root[data-picasoar-theme="midnight"] .card{padding:16px}:root[data-picasoar-theme="midnight"] .day4-quick a {padding:14px 16px}}
+@media(prefers-reduced-motion:reduce){:root[data-picasoar-theme="midnight"] .day4-quick a{transition:none;transform:none!important}}
+
+/* PICASOAR visual identity: standalone inline SVG (no additional 404-prone resource). */
+.picasoar-brand-symbol { display:block; width:36px; height:36px; flex:none; overflow:visible; filter:drop-shadow(0 2px 3px rgba(143,121,255,.12)); }
+.brand .brand-name { font-weight:750; letter-spacing:.015em; }
+@media (prefers-reduced-motion: no-preference) {
+  .picasoar-brand-symbol { transition:filter .2s ease, transform .2s ease; }
+  .brand:hover .picasoar-brand-symbol { transform:translateY(-1px); filter:drop-shadow(0 3px 4px rgba(143,121,255,.2)); }
+}
